@@ -45,7 +45,7 @@ if (muteBtn && video) {
   });
 }
 
-// Optional: clicking the video also toggles sound for quick mobile/desktop interaction
+// Clicking the video toggles sound
 if (video) {
   video.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -56,11 +56,10 @@ if (video) {
   // Automatically dismiss when the video finishes
   video.addEventListener('ended', dismiss);
 
-  // Ensure autoplay starts smoothly
+  // Autoplay handler
   const playPromise = video.play();
   if (playPromise !== undefined) {
     playPromise.catch(() => {
-      // Autoplay was prevented, ensure muted and retry
       video.muted = true;
       updateMuteUI();
       video.play().catch(() => {});
@@ -73,5 +72,24 @@ if (skipBtn) {
   skipBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     dismiss();
+  });
+}
+
+// Mobile Navbar Toggle
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+
+  // Close menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
   });
 }

@@ -45,86 +45,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ------------------------------------------------------------- */
-/* SPLASH SCREEN                                                 */
-/* ------------------------------------------------------------- */
-#splash {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: #000;
-  transition: opacity .7s ease;
-  overflow: hidden;
-}
-
-#splash.hide {
-  opacity: 0;
-  pointer-events: none;
-}
-
-#splash video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-#mute-btn {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  z-index: 25;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: background .2s ease, transform .2s ease, border-color .2s ease;
-}
-
-#mute-btn:hover {
-  background: var(--heist-red);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: scale(1.08);
-}
-
-#mute-btn svg {
-  display: block;
-}
-
-#skip-btn {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 10px 22px;
-  border-radius: 9999px;
-  cursor: pointer;
-  font-family: var(--font-heading);
-  font-size: .88rem;
-  font-weight: 600;
-  letter-spacing: .06em;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: background .2s ease, transform .2s ease, border-color .2s ease;
-  z-index: 25;
-}
-
-#skip-btn:hover {
-  background: var(--heist-red);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: scale(1.04);
-}
 
 /* ------------------------------------------------------------- */
 /* STICKY NAVBAR                                                 */
@@ -291,6 +211,7 @@ body {
 .hero-section {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh; /* safe viewport height: accounts for mobile browser chrome */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -312,6 +233,7 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
+  will-change: transform;
 }
 
 .hero-overlay {
@@ -898,16 +820,72 @@ body {
 /* Mobile Devices (max-width: 600px - down to 360px) */
 @media (max-width: 600px) {
   .hero-section {
-    padding-top: 80px;
-    padding-bottom: 36px;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: 70px;
+    padding-bottom: 28px;
+    justify-content: flex-end; /* push content to bottom so image shows above */
+    gap: 12px;
+  }
+
+  /* Keep image anchored to top so faces are visible */
+  .hero-bg-img {
+    object-position: center 10%;
+  }
+
+  /* Lighten overlay on mobile so image is more visible */
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(9, 9, 18, 0.55) 0%,
+      rgba(9, 9, 18, 0.15) 35%,
+      rgba(9, 9, 18, 0.15) 55%,
+      rgba(9, 9, 18, 0.92) 100%
+    );
+  }
+
+  .hero-content {
+    margin-top: auto;
+    padding-top: 0;
   }
 
   .heist-hero-title {
-    font-size: 3rem;
+    font-size: clamp(2.4rem, 10vw, 3rem);
+    gap: 6px;
+  }
+
+  .hero-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
   }
 
   .hero-tagline {
-    font-size: 1.15rem;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-subtext {
+    font-size: 0.8rem;
+  }
+
+  .hero-meta-bar {
+    gap: 6px;
+  }
+
+  .meta-pill {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+
+  .hero-actions {
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .heist-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 24px;
   }
 
   .highlights-grid {
